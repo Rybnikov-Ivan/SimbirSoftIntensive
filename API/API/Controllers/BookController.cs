@@ -53,7 +53,7 @@ namespace API.Controllers
         public List<BookDto> Post(BookDto book)
         {
             BookDto.books.Add(new BookDto() { Name = book.Name, Author = book.Author, Genre = book.Genre });
-
+            
             return BookDto.books;
         }
 

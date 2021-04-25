@@ -2,6 +2,7 @@
 using SimbirSoft.Intensive.BL.Peoples.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SimbirSoft.Intensive.BL.PeopleGetBook.Models
 {
@@ -13,16 +14,19 @@ namespace SimbirSoft.Intensive.BL.PeopleGetBook.Models
         /// <summary>
         /// Человек
         /// </summary>
+        [Required]
         public PeopleDto People { get; set; }
 
         /// <summary>
         /// Книга
         /// </summary>
+        [Required]
         public BookDto Book { get; set; }
 
         /// <summary>
         /// Дата и время получения книги
         /// </summary>
+        [Required]
         public DateTimeOffset DateAndTime { get; set; }
 
         /// <summary>
