@@ -53,7 +53,17 @@ namespace API.Controllers
         [HttpPost("/api/peoples/add")]
         public List<PeopleDto> Post(PeopleDto people)
         {
-            PeopleDto.peoples.Add(new PeopleDto() { Name = people.Name, Surname = people.Surname, MiddleName = people.MiddleName, DateOfBirth = people.DateOfBirth });
+            var peopleSerialize =
+                new PeopleDtoSerialize
+                {
+                    Name = people.Name,
+                    Surname = people.Surname,
+                    MiddleName = people.MiddleName,
+                    DateOfBirthIgnore = people.DateOfBirth,
+                    DateOfBirth = null
+                };
+
+            PeopleDto.peoples.Add(new PeopleDtoSerialize() { Name = peopleSerialize.Name, Surname = peopleSerialize.Surname, MiddleName = peopleSerialize.MiddleName, DateOfBirthIgnore = peopleSerialize.DateOfBirthIgnore });
 
             return PeopleDto.peoples;
         }

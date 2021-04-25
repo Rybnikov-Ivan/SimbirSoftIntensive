@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace SimbirSoft.Intensive.BL.Peoples.Models
 {
@@ -31,11 +32,23 @@ namespace SimbirSoft.Intensive.BL.Peoples.Models
         /// Дата рождения
         /// </summary>
         [Required]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
         /// Статичный список с тремя моделями людей
         /// </summary>
         public static List<PeopleDto> peoples = new List<PeopleDto>();
+    }
+
+    /// <summary>
+    /// Производный класс для сериализации
+    /// </summary>
+    public class PeopleDtoSerialize : PeopleDto
+    {
+        /// <summary>
+        /// Дата рождения для игнорирования при записи в Json
+        /// </summary>
+        [JsonIgnore]
+        public DateTime? DateOfBirthIgnore { get; set; }
     }
 }

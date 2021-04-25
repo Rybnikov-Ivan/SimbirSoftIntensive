@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SimbirSoft.Intensive.BL.Books.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace API.Controllers
 {
@@ -52,8 +55,16 @@ namespace API.Controllers
         [HttpPost("/api/books/add")]
         public List<BookDto> Post(BookDto book)
         {
-            BookDto.books.Add(new BookDto() { Name = book.Name, Author = book.Author, Genre = book.Genre });
-            
+            var bookSerialize =
+                new BookDtoSerialize
+                {
+                    Name = book.Name,
+                    Author = book.Author,
+                    GenreIgnore = book.Genre
+                };
+
+            BookDto.books.Add(new BookDtoSerialize() { Name = bookSerialize.Name, Author = bookSerialize.Author, GenreIgnore = bookSerialize.GenreIgnore});
+
             return BookDto.books;
         }
 
@@ -70,6 +81,42 @@ namespace API.Controllers
 
             return this.Ok();
         }
+    }
 
+    public class BookSerialize : JsonConverter<BookDto>
+    {
+        public override BookDto Read(
+            ref Utf8JsonReader reader,
+            Type type,
+            JsonSerializerOptions options)
+            {
+                // OK to pass in options when recursively calling Deserialize.
+                BookDto book =
+                    JsonSerializer.Deserialize<BookDtoSerialize>(
+                        ref reader,
+                        options);
+
+                // Check for required fields set by values in JSON.
+                return book;
+            }
+
+        public override void Write(
+            Utf8JsonWriter writer,
+            BookDto book,
+            JsonSerializerOptions options)
+        {
+            var bookDtoSerialize =
+                new BookDtoSerialize
+                {
+                    Name = book.Name,
+                    Author = book.Author    
+                };
+
+            // OK to pass in options when recursively calling Serialize.
+            JsonSerializer.Serialize(
+                writer,
+                bookDtoSerialize,
+                options);
+        }
     }
 }
