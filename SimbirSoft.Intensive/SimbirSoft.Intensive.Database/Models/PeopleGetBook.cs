@@ -26,10 +26,5 @@ namespace SimbirSoft.Intensive.Database.Models
         /// </summary>
         [Required]
         public DateTimeOffset DateAndTime { get; set; }
-
-        /// <summary>
-        /// Список, отвечающий за хранение сущностей
-        /// </summary>
-        public static List<PeopleGetBook> peopleGetBooks = new List<PeopleGetBook>();
     }
 }

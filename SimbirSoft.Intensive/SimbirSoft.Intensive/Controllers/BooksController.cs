@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SimbirSoft.Intensive.Database;
 using SimbirSoft.Intensive.Database.Models;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,9 @@ namespace SimbirSoft.Intensive.Controllers
         /// </summary>
         public BooksController()
         {
-            BookDto.books.Add(new BookDto() { Name = "Cthulhu", Author = "Govard Lovecraft", Genre = "Horror" });
-            BookDto.books.Add(new BookDto() { Name = "Harry Potter", Author = "Govard Lovecraft", Genre = "Fantastic" });
-            BookDto.books.Add(new BookDto() { Name = "Cherry Orchard", Author = "Anton Pavlovich Chekhov", Genre = "Piece" });
+            Data.books.Add(new BookDto() { Name = "Cthulhu", Author = "Govard Lovecraft", Genre = "Horror" });
+            Data.books.Add(new BookDto() { Name = "Harry Potter", Author = "Govard Lovecraft", Genre = "Fantastic" });
+            Data.books.Add(new BookDto() { Name = "Cherry Orchard", Author = "Anton Pavlovich Chekhov", Genre = "Piece" });
         }
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpGet]
         public List<BookDto> GetAll ()
         {
-            return BookDto.books;
+            return Data.books;
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpGet("{author}")]
         public BookDto GetByAuthor([FromRoute] string author)
         {
-            var existBook = BookDto.books.FirstOrDefault(x => x.Author == author);
+            var existBook = Data.books.FirstOrDefault(x => x.Author == author);
 
             return existBook;
         }
@@ -61,9 +62,9 @@ namespace SimbirSoft.Intensive.Controllers
                     GenreIgnore = book.Genre
                 };
 
-            BookDto.books.Add(new BookWithoutGenre() { Name = bookSerialize.Name, Author = bookSerialize.Author, GenreIgnore = bookSerialize.GenreIgnore});
+            Data.books.Add(new BookWithoutGenre() { Name = bookSerialize.Name, Author = bookSerialize.Author, GenreIgnore = bookSerialize.GenreIgnore});
 
-            return BookDto.books;
+            return Data.books;
         }
 
         /// <summary>
@@ -73,8 +74,8 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpDelete("deletebyauthor/{author}")]
         public IActionResult DeleteByAuthor([FromRoute] string author)
         {
-            var existBook = BookDto.books.FirstOrDefault(x => x.Author == author);
-            BookDto.books.Remove(existBook);
+            var existBook = Data.books.FirstOrDefault(x => x.Author == author);
+            Data.books.Remove(existBook);
 
             return Ok();
         }
@@ -86,8 +87,8 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpDelete("deletebyname/{name}")]
         public IActionResult DeleteByName([FromRoute] string name)
         {
-            var existBook = BookDto.books.FirstOrDefault(x => x.Name == name);
-            BookDto.books.Remove(existBook);
+            var existBook = Data.books.FirstOrDefault(x => x.Name == name);
+            Data.books.Remove(existBook);
 
             return Ok();
         }

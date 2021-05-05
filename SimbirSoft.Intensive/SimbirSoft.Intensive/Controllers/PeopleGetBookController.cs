@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SimbirSoft.Intensive.Database;
 using SimbirSoft.Intensive.Database.Models;
 using System.Collections.Generic;
 
@@ -17,9 +18,9 @@ namespace SimbirSoft.Controllers
         [HttpPost("add")]
         public List<PeopleGetBook> Add([FromBody] PeopleGetBook peopleGetBook)
         {
-            PeopleGetBook.peopleGetBooks.Add(new PeopleGetBook { People = peopleGetBook.People, Book = peopleGetBook.Book, DateAndTime = peopleGetBook.DateAndTime });
+            Data.peopleGetBooks.Add(new PeopleGetBook { People = peopleGetBook.People, Book = peopleGetBook.Book, DateAndTime = peopleGetBook.DateAndTime });
 
-            return PeopleGetBook.peopleGetBooks;
+            return Data.peopleGetBooks;
         }
     }
 }

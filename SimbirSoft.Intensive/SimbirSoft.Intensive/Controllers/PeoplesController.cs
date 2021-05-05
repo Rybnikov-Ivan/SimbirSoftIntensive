@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SimbirSoft.Intensive.Database;
 using SimbirSoft.Intensive.Database.Models;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,9 @@ namespace SimbirSoft.Controllers
         /// </summary>
         public PeoplesController()
         {
-            PeopleDto.peoples.Add(new PeopleDto() { Name = "Ivan", Surname = "Ivanov", MiddleName = "Ivanovich", DateOfBirth = new DateTime() });
-            PeopleDto.peoples.Add(new PeopleDto() { Name = "Marina", Surname = "Svetlaya", MiddleName = "Marinovna", DateOfBirth = new DateTime() });
-            PeopleDto.peoples.Add(new PeopleDto() { Name = "Petr", Surname = "Petrov", MiddleName = "Petrovich", DateOfBirth = new DateTime() });
+            Data.peoples.Add(new PeopleDto() { Name = "Ivan", Surname = "Ivanov", MiddleName = "Ivanovich", DateOfBirth = new DateTime() });
+            Data.peoples.Add(new PeopleDto() { Name = "Marina", Surname = "Svetlaya", MiddleName = "Marinovna", DateOfBirth = new DateTime() });
+            Data.peoples.Add(new PeopleDto() { Name = "Petr", Surname = "Petrov", MiddleName = "Petrovich", DateOfBirth = new DateTime() });
         }
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace SimbirSoft.Controllers
         [HttpGet]
         public List<PeopleDto> GetAll()
         {
-            return PeopleDto.peoples;
+            return Data.peoples;
         }
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace SimbirSoft.Controllers
         [HttpGet("{name}")]
         public PeopleDto GetByAuthor([FromRoute] string name)
         {
-            var existPeople = PeopleDto.peoples.FirstOrDefault(x => x.Name == name);
+            var existPeople = Data.peoples.FirstOrDefault(x => x.Name == name);
 
             return existPeople;
         }
@@ -61,14 +62,14 @@ namespace SimbirSoft.Controllers
                     DateOfBirth = null
                 };
 
-            PeopleDto.peoples.Add(new PeopleWithoutDateOfBirth() 
+            Data.peoples.Add(new PeopleWithoutDateOfBirth() 
             {   Name = peopleSerialize.Name, 
                 Surname = peopleSerialize.Surname, 
                 MiddleName = peopleSerialize.MiddleName, 
                 DateOfBirthIgnore = peopleSerialize.DateOfBirthIgnore 
             });
 
-            return PeopleDto.peoples;
+            return Data.peoples;
         }
 
         /// <summary>
@@ -78,8 +79,8 @@ namespace SimbirSoft.Controllers
         [HttpDelete("delete")]
         public IActionResult Delete([FromBody] PeopleDto people)
         {
-            var existPeople = PeopleDto.peoples.FirstOrDefault(x => x.Name == people.Name && x.Surname == people.Surname && x.MiddleName == people.MiddleName);
-            PeopleDto.peoples.Remove(existPeople);
+            var existPeople = Data.peoples.FirstOrDefault(x => x.Name == people.Name && x.Surname == people.Surname && x.MiddleName == people.MiddleName);
+            Data.peoples.Remove(existPeople);
 
             return Ok();
         }

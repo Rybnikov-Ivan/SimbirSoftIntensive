@@ -33,11 +33,6 @@ namespace SimbirSoft.Intensive.Database.Models
         /// </summary>
         [Required]
         public DateTime? DateOfBirth { get; set; }
-
-        /// <summary>
-        /// Статичный список с тремя моделями людей
-        /// </summary>
-        public static List<PeopleDto> peoples = new List<PeopleDto>();
     }
 
     /// <summary>

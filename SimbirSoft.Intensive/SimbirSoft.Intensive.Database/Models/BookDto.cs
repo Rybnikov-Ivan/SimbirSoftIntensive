@@ -27,11 +27,6 @@ namespace SimbirSoft.Intensive.Database.Models
         /// </summary>
         [Required]
         public string Genre { get; set; }
-
-        /// <summary>
-        /// Статичный список книг
-        /// </summary>
-        public static List<BookDto> books = new List<BookDto>();
     }
 
     /// <summary>
