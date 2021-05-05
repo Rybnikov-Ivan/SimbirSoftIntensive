@@ -8,14 +8,14 @@ namespace SimbirSoft.Controllers
     /// Контроллер, отвечающий за получение книги человеком
     /// </summary>
     [ApiController]
+    [Route("/api/[controller]")]
     public class PeopleGetBookController : ControllerBase
     {
         /// <summary>
         /// Контроллер для сущности-агрегатора
         /// </summary>
-        /// <returns></returns>
-        [HttpPost("/api/peoplegetbook/add")]
-        public List<PeopleGetBook> Post(PeopleGetBook peopleGetBook)
+        [HttpPost("add")]
+        public List<PeopleGetBook> Add([FromBody] PeopleGetBook peopleGetBook)
         {
             PeopleGetBook.peopleGetBooks.Add(new PeopleGetBook { People = peopleGetBook.People, Book = peopleGetBook.Book, DateAndTime = peopleGetBook.DateAndTime });
 

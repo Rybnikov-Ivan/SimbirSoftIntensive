@@ -37,7 +37,7 @@ namespace SimbirSoft.Intensive.BL.Books.Models
     /// <summary>
     /// Производный класс для сериализации
     /// </summary>
-    public class BookDtoSerialize : BookDto
+    public class BookWithoutGenre : BookDto
     {
         /// <summary>
         /// Жанр для игнорирования записи в JSON

@@ -10,12 +10,13 @@ namespace SimbirSoft.Controllers
     /// Контроллер для людей
     /// </summary>
     [ApiController]
-    public class PeopleController : ControllerBase
+    [Route("/api/[controller]")]
+    public class PeoplesController : ControllerBase
     {
         /// <summary>
         /// Добавление тестовых сущностей
         /// </summary>
-        public PeopleController()
+        public PeoplesController()
         {
             PeopleDto.peoples.Add(new PeopleDto() { Name = "Ivan", Surname = "Ivanov", MiddleName = "Ivanovich", DateOfBirth = new DateTime() });
             PeopleDto.peoples.Add(new PeopleDto() { Name = "Marina", Surname = "Svetlaya", MiddleName = "Marinovna", DateOfBirth = new DateTime() });
@@ -25,8 +26,7 @@ namespace SimbirSoft.Controllers
         /// <summary>
         /// Получение всех людей
         /// </summary>
-        /// <returns></returns>
-        [HttpGet("/api/peoples")]
+        [HttpGet]
         public List<PeopleDto> GetAll()
         {
             return PeopleDto.peoples;
@@ -36,9 +36,8 @@ namespace SimbirSoft.Controllers
         /// Получение человека по имени
         /// </summary>
         /// <param name="name"></param>
-        /// <returns></returns>
-        [HttpGet("/api/peoples/{name}")]
-        public PeopleDto GetByAuthor(string name)
+        [HttpGet("{name}")]
+        public PeopleDto GetByAuthor([FromRoute] string name)
         {
             var existPeople = PeopleDto.peoples.FirstOrDefault(x => x.Name == name);
 
@@ -49,12 +48,11 @@ namespace SimbirSoft.Controllers
         /// Добавление нового человека
         /// </summary>
         /// <param name="people"></param>
-        /// <returns></returns>
-        [HttpPost("/api/peoples/add")]
-        public List<PeopleDto> Post(PeopleDto people)
+        [HttpPost("add")]
+        public List<PeopleDto> Add([FromBody] PeopleDto people)
         {
             var peopleSerialize =
-                new PeopleDtoSerialize
+                new PeopleWithoutDateOfBirth
                 {
                     Name = people.Name,
                     Surname = people.Surname,
@@ -63,23 +61,27 @@ namespace SimbirSoft.Controllers
                     DateOfBirth = null
                 };
 
-            PeopleDto.peoples.Add(new PeopleDtoSerialize() { Name = peopleSerialize.Name, Surname = peopleSerialize.Surname, MiddleName = peopleSerialize.MiddleName, DateOfBirthIgnore = peopleSerialize.DateOfBirthIgnore });
+            PeopleDto.peoples.Add(new PeopleWithoutDateOfBirth() 
+            {   Name = peopleSerialize.Name, 
+                Surname = peopleSerialize.Surname, 
+                MiddleName = peopleSerialize.MiddleName, 
+                DateOfBirthIgnore = peopleSerialize.DateOfBirthIgnore 
+            });
 
             return PeopleDto.peoples;
         }
 
         /// <summary>
-        /// Удаление человека
+        /// Удаление человека по ФИО
         /// </summary>
         /// <param name="name"></param>
-        /// <returns></returns>
-        [HttpDelete("/api/peoples/delete")]
-        public IActionResult Delete(string name)
+        [HttpDelete("delete")]
+        public IActionResult Delete([FromBody] PeopleDto people)
         {
-            var existPeople = PeopleDto.peoples.FirstOrDefault(x => x.Name == name || x.Surname == name || x.MiddleName == name);
+            var existPeople = PeopleDto.peoples.FirstOrDefault(x => x.Name == people.Name && x.Surname == people.Surname && x.MiddleName == people.MiddleName);
             PeopleDto.peoples.Remove(existPeople);
 
-            return this.Ok();
+            return Ok();
         }
     }
 }

@@ -43,7 +43,7 @@ namespace SimbirSoft.Intensive.BL.Peoples.Models
     /// <summary>
     /// Производный класс для сериализации
     /// </summary>
-    public class PeopleDtoSerialize : PeopleDto
+    public class PeopleWithoutDateOfBirth : PeopleDto
     {
         /// <summary>
         /// Дата рождения для игнорирования при записи в Json

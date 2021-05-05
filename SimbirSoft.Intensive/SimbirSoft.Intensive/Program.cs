@@ -1,4 +1,3 @@
-using SimbirSoft.Intensive.Controllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
