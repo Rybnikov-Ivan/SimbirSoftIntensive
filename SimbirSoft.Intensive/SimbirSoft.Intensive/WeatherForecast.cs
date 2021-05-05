@@ -1,6 +1,6 @@
 using System;
 
-namespace API
+namespace SimbirSoft.Intensive
 {
     public class WeatherForecast
     {

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace API.Controllers
+namespace SimbirSoft.Controllers
 {
     /// <summary>
     /// Контроллер для людей
