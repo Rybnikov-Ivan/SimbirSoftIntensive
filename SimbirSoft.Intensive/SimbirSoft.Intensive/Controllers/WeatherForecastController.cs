@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TestProject.Controllers
+namespace SimbirSoft.Intensive.Controllers
 {
     [ApiController]
     [Route("[controller]")]

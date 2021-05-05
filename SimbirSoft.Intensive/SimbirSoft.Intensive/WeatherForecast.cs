@@ -1,6 +1,6 @@
 using System;
 
-namespace TestProject
+namespace SimbirSoft.Intensive
 {
     public class WeatherForecast
     {

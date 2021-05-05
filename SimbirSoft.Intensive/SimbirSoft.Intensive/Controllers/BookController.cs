@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace TestProject.Controllers
+namespace SimbirSoft.Controllers
 {
     /// <summary>
     /// Контроллер для книг
