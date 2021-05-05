@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SimbirSoft.Intensive.BL.PeopleGetBook.Models;
+using SimbirSoft.Intensive.Database.Models;
 using System.Collections.Generic;
 
 namespace SimbirSoft.Controllers

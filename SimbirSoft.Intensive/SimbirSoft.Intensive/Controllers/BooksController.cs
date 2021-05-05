@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SimbirSoft.Intensive.BL.Books.Models;
+using SimbirSoft.Intensive.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

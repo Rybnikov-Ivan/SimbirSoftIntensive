@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SimbirSoft.Intensive.BL\SimbirSoft.Intensive.BL.csproj" />
+    <ProjectReference Include="..\SimbirSoft.Intensive.Database\SimbirSoft.Intensive.Database.csproj" />
   </ItemGroup>
 
 
