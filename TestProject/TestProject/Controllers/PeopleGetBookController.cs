@@ -2,7 +2,7 @@
 using SimbirSoft.Intensive.BL.PeopleGetBook.Models;
 using System.Collections.Generic;
 
-namespace API.Controllers
+namespace TestProject.Controllers
 {
     /// <summary>
     /// Контроллер, отвечающий за получение книги человеком
