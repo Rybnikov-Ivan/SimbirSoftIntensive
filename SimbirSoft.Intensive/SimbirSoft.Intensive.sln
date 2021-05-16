@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimbirSoft.Intensive", "SimbirSoft.Intensive\SimbirSoft.Intensive.csproj", "{F159C907-2812-4630-B049-201827152C3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimbirSoft.Intensive.Database", "SimbirSoft.Intensive.Database\SimbirSoft.Intensive.Database.csproj", "{4C3B0395-8A58-43C1-84CF-B51E2B1F88F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimbirSoft.Intensive.Database", "SimbirSoft.Intensive.Database\SimbirSoft.Intensive.Database.csproj", "{4C3B0395-8A58-43C1-84CF-B51E2B1F88F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimbirSoft.Intensive.Core", "SimbirSoft.Intensive.Core\SimbirSoft.Intensive.Core.csproj", "{405241C8-9CCA-4780-B7D1-5FF763F9A05B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimbirSoft.Intensive.Core", "SimbirSoft.Intensive.Core\SimbirSoft.Intensive.Core.csproj", "{405241C8-9CCA-4780-B7D1-5FF763F9A05B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
