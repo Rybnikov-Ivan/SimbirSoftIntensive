@@ -6,10 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SimbirSoft.Intensive.Database;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace SimbirSoft.Intensive
 {
@@ -29,6 +29,8 @@ namespace SimbirSoft.Intensive
             {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
 
         }
 
