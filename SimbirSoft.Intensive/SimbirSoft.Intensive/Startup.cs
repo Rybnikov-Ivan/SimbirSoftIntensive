@@ -30,7 +30,7 @@ namespace SimbirSoft.Intensive
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("SimbirSoft.Intensive")));
 
         }
 
