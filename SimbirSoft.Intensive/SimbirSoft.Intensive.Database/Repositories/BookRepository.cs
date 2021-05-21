@@ -55,6 +55,24 @@ namespace SimbirSoft.Intensive.Database.Repositories
             }
         }
 
+        public IQueryable GetBookByGenre (string genreName)
+        {
+            var query = from genre in _dataContext.Genres
+                        where genre.NameGenre == genreName
+                        select new
+                        {
+                            Genre = genre.NameGenre,
+                            Books = from books in genre.Books
+                                    select new
+                                    {
+                                        books,
+                                        author = from auth in books.Authors
+                                                 select auth
+                                    }
+                        };
+            return query;
+        }
+
         public void Save()
         {
             _dataContext.SaveChanges();

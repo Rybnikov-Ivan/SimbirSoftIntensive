@@ -1,6 +1,7 @@
 ﻿using SimbirSoft.Intensive.Database.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SimbirSoft.Intensive.Database.Repositories.Interfaces
@@ -30,6 +31,12 @@ namespace SimbirSoft.Intensive.Database.Repositories.Interfaces
         /// </summary>
         /// <param name="book"></param>
         //void DeleteGenre(Book book);
+
+        /// <summary>
+        /// Получение книг по жанру
+        /// </summary>
+        /// <param name="nameGenre"></param>
+        IQueryable GetBookByGenre(string nameGenre);
 
         /// <summary>
         /// Удаление объекта по id

@@ -26,19 +26,25 @@ namespace SimbirSoft.Intensive.Database.Repositories
             _dataContext.Genres.Add(genre);
         }
 
-        public IQueryable GetStatistic(string nameGenre)
+        public Object GetStatistic(string nameGenre)
         {
-            var statistic = from genre in _dataContext.Genres
+            var count = from genre in _dataContext.Genres
                             where genre.NameGenre == nameGenre
                             select new
                             {
-                                Statistic = from book in genre.Books
-                                            select book.Name
+                                Genre = genre.NameGenre,
+                                Statistic = genre.Books.Count()
                             };
 
+            var statistic = from genre in _dataContext.Genres
+                     where genre.NameGenre == nameGenre
+                     select new
+                     {
+                         genre = genre.NameGenre,
+                         count = count.Count()
+                     };
 
-
-            return statistic;
+            return statistic.FirstOrDefault();
         }
 
         public void Save()

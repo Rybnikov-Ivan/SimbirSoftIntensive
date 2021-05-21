@@ -52,10 +52,20 @@ namespace SimbirSoft.Intensive.Controllers
         public Author Add([FromBody] Author author)
         {
             _dataContext.AddAuthor(author);
-
             _dataContext.Save();
 
             return author;
+        }
+
+        /// <summary>
+        /// Удаление автора (если у него нет книг)
+        /// </summary>
+        /// <param name="id"></param>
+        [HttpDelete("delete/{id}")]
+        public void Delete([FromRoute] int id)
+        {
+            _dataContext.Delete(id);
+            _dataContext.Save();
         }
     }
 }

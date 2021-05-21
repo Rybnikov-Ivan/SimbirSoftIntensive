@@ -78,16 +78,14 @@ namespace SimbirSoft.Intensive.Controllers
         }
 
         /// <summary>
-        /// Удаление книги по названию
+        /// Получение книг по жанру книги - автор - жанр
         /// </summary>
-        /// <param name="name"></param>
-        [HttpDelete("deletebyname/{name}")]
-        public IActionResult DeleteByName([FromRoute] string name)
+        /// <param name="genre"></param>
+        [HttpGet("getbookbygenre/{genre}")]
+        public IQueryable GetBookByGenre([FromRoute] string genre)
         {
-            var existBook = Data.books.FirstOrDefault(x => x.Name == name);
-            Data.books.Remove(existBook);
-
-            return Ok();
+            var model = _dataContext.GetBookByGenre(genre);
+            return model;
         }
     }
 }

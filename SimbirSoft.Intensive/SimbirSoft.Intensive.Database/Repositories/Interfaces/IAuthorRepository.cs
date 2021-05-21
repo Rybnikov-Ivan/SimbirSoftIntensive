@@ -26,13 +26,7 @@ namespace SimbirSoft.Intensive.Database.Repositories.Interfaces
         void AddAuthor(Author author);
 
         /// <summary>
-        /// Добавление книги
-        /// </summary>
-        /// <param name="book"></param>
-        void AddBook(Book book);
-
-        /// <summary>
-        /// Удаление объекта
+        /// Удаление автора (если у него нет книг)
         /// </summary>
         /// <param name="id"></param>
         void Delete(int id); 

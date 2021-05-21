@@ -54,7 +54,7 @@ namespace SimbirSoft.Intensive.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpGet("getstatistic/{name}")]
-        public IQueryable GetStatistic([FromRoute] string name)
+        public Object GetStatistic([FromRoute] string name)
         {
             var statistic = _dataContext.GetStatistic(name);
             _dataContext.Save();
