@@ -9,11 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimbirSoft.Intensive.BL", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimbirSoft.Intensive", "SimbirSoft.Intensive\SimbirSoft.Intensive.csproj", "{F159C907-2812-4630-B049-201827152C3D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PostmanTest", "PostmanTest", "{98699BA3-74B8-4066-818B-DA0A58CBE5AE}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\Downloads\TestSimbirSoft.postman_collection.json = ..\..\..\..\Downloads\TestSimbirSoft.postman_collection.json
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
