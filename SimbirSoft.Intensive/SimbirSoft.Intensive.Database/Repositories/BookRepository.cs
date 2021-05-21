@@ -3,6 +3,7 @@ using SimbirSoft.Intensive.Database.Models;
 using SimbirSoft.Intensive.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SimbirSoft.Intensive.Database.Repositories
@@ -15,11 +16,6 @@ namespace SimbirSoft.Intensive.Database.Repositories
             _dataContext = dataContext;
         }
 
-        public IEnumerable<Book> GetBookList()
-        {
-            return _dataContext.Books;
-        }
-
         public Book GetBook(int id)
         {
             return _dataContext.Books.Find(id);
@@ -30,17 +26,32 @@ namespace SimbirSoft.Intensive.Database.Repositories
             _dataContext.Books.Add(book);
         }
 
-        public void Update(Book book)
+        public void AddGenre(Book book)
         {
-            _dataContext.Entry(book).State = EntityState.Modified;
+            var existBook = _dataContext.Books.FirstOrDefault(x => x.Name == book.Name);
+
+            existBook.Genres = book.Genres;
         }
+
+        //public void DeleteGenre(Book book)
+        //{
+        //    Book existBook = _dataContext.Books.FirstOrDefault(x => x.Name == book.Name);
+        //    var ex = _dataContext.Books.Include(x => x.Genres).Where(x => x.Name == book.Name).Select(x => x.Genres).ToList();
+            
+        //    existBook.Genres.Remove(ex);
+        //}
 
         public void Delete(int id)
         {
-            Book book = _dataContext.Books.Find(id);
-            if (book != null)
+            var existBook = _dataContext.Books.FirstOrDefault(x => x.Id == id && !x.Persons.Any());
+
+            if (existBook != null)
             {
-                _dataContext.Books.Remove(book);
+                _dataContext.Books.Remove(existBook);
+            }
+            else
+            {
+                throw new ArgumentException("Книга находится у пользователя");
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using SimbirSoft.Intensive.Database.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SimbirSoft.Intensive.Database.Repositories.Interfaces
@@ -8,27 +9,27 @@ namespace SimbirSoft.Intensive.Database.Repositories.Interfaces
     public interface IAuthorRepository
     {
         /// <summary>
-        /// Получение всех объектов - авторов
+        /// Получение всех авторов
         /// </summary>
-        IEnumerable<Author> GetAuthorList();
+        IQueryable GetAll();
 
         /// <summary>
         /// Получение одного автора по id
         /// </summary>
         /// <param name="id"></param>
-        Author GetAuthor(int id);
+        IQueryable GetBooks(int id);
         
         /// <summary>
-        /// Создание объекта
+        /// Добавление автора
         /// </summary>
         /// <param name="author"></param>
-        void Add(Author author);
+        void AddAuthor(Author author);
 
         /// <summary>
-        /// Обновление объекта
+        /// Добавление книги
         /// </summary>
-        /// <param name="author"></param>
-        void Update(Author author);
+        /// <param name="book"></param>
+        void AddBook(Book book);
 
         /// <summary>
         /// Удаление объекта

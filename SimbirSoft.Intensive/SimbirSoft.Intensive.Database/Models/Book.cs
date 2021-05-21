@@ -16,22 +16,17 @@ namespace SimbirSoft.Intensive.Database.Models
         /// Наименование книги
         /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// Идентификатор автора
-        /// </summary>
-        public int AuthorId { get; set; }
             
         /// <summary>
         /// Время просрочки сдачи книги
         /// </summary>
         public int TimeOfDelay { get; set; }
-
-        /// <summary>
-        /// Автор книги
-        /// </summary>
-        public Author Author { get; set; }
         
+        /// <summary>
+        /// Идентификатор автора
+        /// </summary>
+        public ICollection<Author> Authors { get; set; }
+
         /// <summary>
         /// Книги, которые взяли пользователи
         /// </summary>

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SimbirSoft.Intensive.Database;
 using System;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -29,6 +30,7 @@ namespace SimbirSoft.Intensive
             {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
+
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString, b => b.MigrationsAssembly("SimbirSoft.Intensive")));
 

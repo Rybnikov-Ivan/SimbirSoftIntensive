@@ -3,6 +3,7 @@ using SimbirSoft.Intensive.Database.Models;
 using SimbirSoft.Intensive.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SimbirSoft.Intensive.Database.Repositories
@@ -15,14 +16,9 @@ namespace SimbirSoft.Intensive.Database.Repositories
             _dataContext = dataContext;
         }
 
-        public IEnumerable<Genre> GetGenreList()
+        public IQueryable GetAll()
         {
             return _dataContext.Genres;
-        }
-
-        public Genre GetAuthor(int id)
-        {
-            return _dataContext.Genres.Find(id);
         }
 
         public void Add(Genre genre)
@@ -30,18 +26,19 @@ namespace SimbirSoft.Intensive.Database.Repositories
             _dataContext.Genres.Add(genre);
         }
 
-        public void Update(Genre genre)
+        public IQueryable GetStatistic(string nameGenre)
         {
-            _dataContext.Entry(genre).State = EntityState.Modified;
-        }
+            var statistic = from genre in _dataContext.Genres
+                            where genre.NameGenre == nameGenre
+                            select new
+                            {
+                                Statistic = from book in genre.Books
+                                            select book.Name
+                            };
 
-        public void Delete(int id)
-        {
-            Genre genre = _dataContext.Genres.Find(id);
-            if (genre != null)
-            {
-                _dataContext.Genres.Remove(genre);
-            }
+
+
+            return statistic;
         }
 
         public void Save()

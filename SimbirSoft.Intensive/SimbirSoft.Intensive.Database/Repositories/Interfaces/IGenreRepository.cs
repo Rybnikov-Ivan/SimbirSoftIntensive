@@ -1,6 +1,7 @@
 ﻿using SimbirSoft.Intensive.Database.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SimbirSoft.Intensive.Database.Repositories.Interfaces
@@ -8,15 +9,10 @@ namespace SimbirSoft.Intensive.Database.Repositories.Interfaces
     public interface IGenreRepository
     {
         /// <summary>
-        /// Получение всех объектов - жанров
-        /// </summary>
-        IEnumerable<Genre> GetGenreList();
-
-        /// <summary>
-        /// Gолучение автора по id
+        /// Получение всех жанров
         /// </summary>
         /// <param name="id"></param>
-        Genre GetAuthor(int id); 
+        IQueryable GetAll(); 
 
         /// <summary>
         /// Создание объекта
@@ -25,16 +21,10 @@ namespace SimbirSoft.Intensive.Database.Repositories.Interfaces
         void Add(Genre genre);
 
         /// <summary>
-        /// Обновление объекта
-        /// </summary>
-        /// <param name="genre"></param>
-        void Update(Genre genre);
-
-        /// <summary>
-        /// Удаление объекта по id
+        /// Вывод статистики жанр - количество книг
         /// </summary>
         /// <param name="id"></param>
-        void Delete(int id);
+        IQueryable GetStatistic(string nameGenre);
 
         /// <summary>
         /// Сохранение изменений

@@ -8,27 +8,28 @@ namespace SimbirSoft.Intensive.Database.Repositories.Interfaces
     public interface IBookRepository
     {
         /// <summary>
-        /// Получение всех объектов - книг
-        /// </summary>
-        IEnumerable<Book> GetBookList(); 
-
-        /// <summary>
         /// Получение книги по id
         /// </summary>
         /// <param name="id"></param>
         Book GetBook(int id); // получение одного объекта по id
 
         /// <summary>
-        /// Создание объекта
+        /// Добавление книги
         /// </summary>
         /// <param name="book"></param>
         void Add(Book book); 
 
         /// <summary>
-        /// Обновление объекта
+        /// Добавление жанра
         /// </summary>
         /// <param name="book"></param>
-        void Update(Book book); 
+        void AddGenre(Book book);
+
+        /// <summary>
+        /// Удаление жанра у книги
+        /// </summary>
+        /// <param name="book"></param>
+        //void DeleteGenre(Book book);
 
         /// <summary>
         /// Удаление объекта по id

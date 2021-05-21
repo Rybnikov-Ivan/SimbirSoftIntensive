@@ -3,6 +3,7 @@ using SimbirSoft.Intensive.Database.Models;
 using SimbirSoft.Intensive.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SimbirSoft.Intensive.Database.Repositories
@@ -15,26 +16,53 @@ namespace SimbirSoft.Intensive.Database.Repositories
             _dataContext = dataContext;
         }
 
-        public IEnumerable<Author> GetAuthorList()
+        public IQueryable GetAll()
         {
             return _dataContext.Authors;
         }
 
-        public Author GetAuthor(int id)
+        public IQueryable GetBooks(int id)
         {
-            return _dataContext.Authors.Find(id);
+            var existAuthor = _dataContext.Authors.Find(id);
+
+            var booksQuery = from books in _dataContext.Books
+                    join author in _dataContext.Authors on books.Id equals author.Id
+                    select new
+                    {
+                        author,
+                        book = books.Name,
+                        genre = from genres in books.Genres
+                                select genres.NameGenre
+                    };
+
+            return booksQuery;
         }
 
-        public void Add(Author author)
+        public void AddAuthor(Author author)
         {
             _dataContext.Authors.Add(author);
+            //if (author.Books != null)
+            //{
+            //    foreach (Book book in books)
+            //    {
+            //        Book existBook = new Book()
+            //        {
+            //            Author = author,
+            //            Name = book.Name,
+            //            Genres = book.Genres,
+            //            Persons = book.Persons,
+            //            TimeOfDelay = book.TimeOfDelay
+            //        };
+
+            //        _dataContext.Books.Add(existBook);
+            //    }
+            //}
         }
 
-        public void Update(Author author)
+        public void AddBook(Book book)
         {
-            _dataContext.Entry(author).State = EntityState.Modified;
+            _dataContext.Books.Add(book);
         }
-
         public void Delete(int id)
         {
             Author author = _dataContext.Authors.Find(id);

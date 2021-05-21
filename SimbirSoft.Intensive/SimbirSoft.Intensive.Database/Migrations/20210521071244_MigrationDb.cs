@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SimbirSoft.Intensive.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class MigrationDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,20 @@ namespace SimbirSoft.Intensive.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Author", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Book",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TimeOfDelay = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Book", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,22 +66,25 @@ namespace SimbirSoft.Intensive.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Book",
+                name: "BookAuthor",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AuthorId = table.Column<int>(type: "int", nullable: false),
-                    TimeOfDelay = table.Column<int>(type: "int", nullable: false)
+                    AuthorsId = table.Column<int>(type: "int", nullable: false),
+                    BooksId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Book", x => x.Id);
+                    table.PrimaryKey("PK_BookAuthor", x => new { x.AuthorsId, x.BooksId });
                     table.ForeignKey(
-                        name: "FK_Book_Author_AuthorId",
-                        column: x => x.AuthorId,
+                        name: "FK_BookAuthor_Author_AuthorsId",
+                        column: x => x.AuthorsId,
                         principalTable: "Author",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BookAuthor_Book_BooksId",
+                        column: x => x.BooksId,
+                        principalTable: "Book",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -120,11 +137,69 @@ namespace SimbirSoft.Intensive.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Book_AuthorId",
+            migrationBuilder.InsertData(
+                table: "Author",
+                columns: new[] { "Id", "FirstName", "LastName", "MiddleName" },
+                values: new object[,]
+                {
+                    { 1, "Anton", "Chechov", "Pavlovich" },
+                    { 2, "Lev", "Tolstoy", "Nicolaevich" },
+                    { 3, "Aleksander", "Pushkin", "Sergeevich" },
+                    { 4, "Nicolay", "Gogol", "Vasievlevich" },
+                    { 5, "Ivan", "Turgenev", "Sergeevich" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Book",
-                column: "AuthorId",
-                unique: true);
+                columns: new[] { "Id", "Name", "TimeOfDelay" },
+                values: new object[,]
+                {
+                    { 1, "Cherry orchard", 3 },
+                    { 2, "War and World", 2 },
+                    { 3, "Boris Godunov", 5 },
+                    { 4, "Dead souls", 0 },
+                    { 5, "Snowstorm", 5 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Genre",
+                columns: new[] { "Id", "NameGenre" },
+                values: new object[,]
+                {
+                    { 1, "Novel" },
+                    { 2, "Story" },
+                    { 3, "Lyrics" },
+                    { 4, "Drama" },
+                    { 5, "Play" },
+                    { 6, "Poem" },
+                    { 7, "Tragedy" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Person",
+                columns: new[] { "Id", "DateOfBirth", "FirstName", "LastName", "MiddleName" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1998), "Ivan", "Ivanov", "Ivanovich" },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1953), "Petr", "Petrov", "Petrovich" },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1972), "Ekaterina", "Kant", "Alekseevna" },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1933), "Anna", "Malaya", "Aleksandrovna" },
+                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1959), "Roman", "Nikitin", "Artemovich" }
+                });
+
+            migrationBuilder.Sql(@"INSERT INTO BookPerson (PersonsId, BooksId)
+            VALUES (1,1),(1,3),(2,4),(3,5),(5,2)");
+
+            migrationBuilder.Sql(@"INSERT INTO BookGenre (BooksId,GenresId)
+            VALUES (1,4), (2,1), (3,7), (4,6), (5,2)");
+
+            migrationBuilder.Sql(@"INSERT INTO BookAuthor (BooksId, AuthorsId)
+            VALUES (1,1), (2,2), (3,3), (4,4), (5,3)");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookAuthor_BooksId",
+                table: "BookAuthor",
+                column: "BooksId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookGenre_GenresId",
@@ -140,10 +215,16 @@ namespace SimbirSoft.Intensive.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BookAuthor");
+
+            migrationBuilder.DropTable(
                 name: "BookGenre");
 
             migrationBuilder.DropTable(
                 name: "BookPerson");
+
+            migrationBuilder.DropTable(
+                name: "Author");
 
             migrationBuilder.DropTable(
                 name: "Genre");
@@ -153,9 +234,6 @@ namespace SimbirSoft.Intensive.Migrations
 
             migrationBuilder.DropTable(
                 name: "Person");
-
-            migrationBuilder.DropTable(
-                name: "Author");
         }
     }
 }

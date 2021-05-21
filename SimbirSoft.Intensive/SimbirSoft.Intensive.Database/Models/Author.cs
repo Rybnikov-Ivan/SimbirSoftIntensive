@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimbirSoft.Intensive.Database.Models
@@ -25,5 +26,7 @@ namespace SimbirSoft.Intensive.Database.Models
         /// Отчество автора
         /// </summary>
         public string MiddleName { get; set; }
+
+        public ICollection<Book> Books { get; set; }
     }
 }
