@@ -24,11 +24,6 @@ namespace SimbirSoft.Intensive.Database.Repositories.Interfaces
         /// Вывод статистики жанр - количество книг
         /// </summary>
         /// <param name="id"></param>
-        Object GetStatistic(string nameGenre);
-
-        /// <summary>
-        /// Сохранение изменений
-        /// </summary>
-        void Save();
+        IQueryable GetStatistic(string nameGenre);
     }
 }

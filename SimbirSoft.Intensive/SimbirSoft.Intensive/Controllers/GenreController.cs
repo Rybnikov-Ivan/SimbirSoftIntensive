@@ -17,11 +17,13 @@ namespace SimbirSoft.Intensive.Controllers
     [Route("/api/[controller]")]
     public class GenreController
     {
-        IGenreRepository _dataContext;
+        IGenreRepository _repository;
+        DataContext _context;
 
         public GenreController (DataContext dataContext)
         {
-            _dataContext = new GenreRepository(dataContext);
+            _repository = new GenreRepository(dataContext);
+            _context = dataContext;
         }
 
 
@@ -31,8 +33,8 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpGet("getall")]
         public IQueryable GetAll()
         {
-            var genres = _dataContext.GetAll();
-            _dataContext.Save();
+            var genres = _repository.GetAll();
+            _context.SaveChanges();
 
             return genres;
         }
@@ -43,8 +45,8 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpPost("add")]
         public Genre Add([FromBody] Genre genre)
         {
-            _dataContext.Add(genre);
-            _dataContext.Save();
+            _repository.Add(genre);
+            _context.SaveChanges();
 
             return genre;
         }
@@ -54,10 +56,10 @@ namespace SimbirSoft.Intensive.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpGet("getstatistic/{name}")]
-        public Object GetStatistic([FromRoute] string name)
+        public IQueryable GetStatistic([FromRoute] string name)
         {
-            var statistic = _dataContext.GetStatistic(name);
-            _dataContext.Save();
+            var statistic = _repository.GetStatistic(name);
+            _context.SaveChanges();
 
             return statistic;
         }

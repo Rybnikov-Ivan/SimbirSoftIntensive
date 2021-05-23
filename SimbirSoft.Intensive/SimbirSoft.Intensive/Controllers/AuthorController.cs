@@ -17,10 +17,12 @@ namespace SimbirSoft.Intensive.Controllers
     [Route("/api/[controller]")]
     public class AuthorController
     {
-        IAuthorRepository _dataContext;
+        IAuthorRepository _repository;
+        DataContext _context;
         public AuthorController(DataContext dataContext)
         {
-            _dataContext = new AuthorRepository(dataContext);
+            _repository = new AuthorRepository(dataContext);
+            _context = dataContext;
         }
 
         /// <summary>
@@ -30,7 +32,7 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpGet("getall")]
         public IQueryable GetAll()
         {
-            return _dataContext.GetAll();
+            return _repository.GetAll();
         }
 
         /// <summary>
@@ -40,7 +42,7 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpGet("getbooks/{id}")]
         public IQueryable GetBooks([FromRoute]int id)
         {
-            return _dataContext.GetBooks(id);
+            return _repository.GetBooks(id);
         }
         
         /// <summary>
@@ -51,8 +53,8 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpPost("add")]
         public Author Add([FromBody] Author author)
         {
-            _dataContext.AddAuthor(author);
-            _dataContext.Save();
+            _repository.AddAuthor(author);
+            _context.SaveChanges();
 
             return author;
         }
@@ -64,8 +66,8 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpDelete("delete/{id}")]
         public void Delete([FromRoute] int id)
         {
-            _dataContext.Delete(id);
-            _dataContext.Save();
+            _repository.Delete(id);
+            _context.SaveChanges();
         }
     }
 }

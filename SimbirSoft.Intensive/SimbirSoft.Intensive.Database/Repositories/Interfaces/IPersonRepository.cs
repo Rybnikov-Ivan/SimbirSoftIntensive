@@ -51,10 +51,5 @@ namespace SimbirSoft.Intensive.Database.Repositories.Interfaces
         /// <param name="id"></param>
         /// <param name="book"></param>
         void DeleteBook(int id, Book book);
-
-        /// <summary>
-        /// Сохранение изменений
-        /// </summary>
-        void Save();
     }
 }

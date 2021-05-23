@@ -18,10 +18,12 @@ namespace SimbirSoft.Intensive.Controllers
     [Route("/api/[controller]")]
     public class BookController : ControllerBase
     {
-        IBookRepository _dataContext;
+        IBookRepository _repository;
+        DataContext _context;
         public BookController(DataContext dataContext)
         {
-            _dataContext = new BookRepository(dataContext);
+            _repository = new BookRepository(dataContext);
+            _context = dataContext;
         }
 
         /// <summary>
@@ -31,8 +33,8 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpPost("add")]
         public Book Add([FromBody] Book book)
         {
-            _dataContext.Add(book);
-            _dataContext.Save();
+            _repository.Add(book);
+            _context.SaveChanges();
 
             return book;
         }
@@ -44,8 +46,8 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpPut("addgenre")]
         public Book AddGenre([FromBody] Book book)
         {
-            _dataContext.AddGenre(book);
-            _dataContext.Save();
+            _repository.AddGenre(book);
+            _context.SaveChanges();
 
             return book;
         }
@@ -71,8 +73,8 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpDelete("delete/{id}")]
         public IActionResult Delete([FromRoute] int id)
         {
-            _dataContext.Delete(id);
-            _dataContext.Save();
+            _repository.Delete(id);
+            _context.SaveChanges();
 
             return Ok();
         }
@@ -84,7 +86,7 @@ namespace SimbirSoft.Intensive.Controllers
         [HttpGet("getbookbygenre/{genre}")]
         public IQueryable GetBookByGenre([FromRoute] string genre)
         {
-            var model = _dataContext.GetBookByGenre(genre);
+            var model = _repository.GetBookByGenre(genre);
             return model;
         }
     }

@@ -30,10 +30,5 @@ namespace SimbirSoft.Intensive.Database.Repositories.Interfaces
         /// </summary>
         /// <param name="id"></param>
         void Delete(int id); 
-
-        /// <summary>
-        /// Сохранение изменений
-        /// </summary>
-        void Save();
     }
 }

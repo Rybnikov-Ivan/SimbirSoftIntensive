@@ -104,10 +104,5 @@ namespace SimbirSoft.Intensive.Database.Repositories
             person.Books.Remove(book);
 
         }
-
-        public void Save()
-        {
-            _dataContext.SaveChanges();
-        }
     }
 }

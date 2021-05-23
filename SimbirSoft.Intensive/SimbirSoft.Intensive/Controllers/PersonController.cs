@@ -16,11 +16,13 @@ namespace SimbirSoft.Controllers
     [Route("/api/[controller]")]
     public class PersonController : ControllerBase
     {
-        IPersonRepository _dataContext;
+        IPersonRepository _repository;
+        DataContext _context;
 
         public PersonController(DataContext dataContext)
         {
-            _dataContext = new PersonRepository(dataContext);
+            _repository = new PersonRepository(dataContext);
+            _context = dataContext;
         }
 
         /// <summary>
@@ -30,7 +32,7 @@ namespace SimbirSoft.Controllers
         [HttpGet("getbook/{id}")]
         public IQueryable GetBook([FromRoute] int id)
         {
-            return _dataContext.GetBook(id);
+            return _repository.GetBook(id);
         }
 
         /// <summary>
@@ -40,8 +42,8 @@ namespace SimbirSoft.Controllers
         [HttpPost("add")]
         public Person Add([FromBody] Person person)
         {
-            _dataContext.Add(person);
-            _dataContext.Save();
+            _repository.Add(person);
+            _context.SaveChanges();
 
             return person;
         }
@@ -53,8 +55,8 @@ namespace SimbirSoft.Controllers
         [HttpPut("update/{id}")]
         public Person Update([FromRoute] int id, [FromBody] Person person)
         {
-            _dataContext.Update(id, person);
-            _dataContext.Save();
+            _repository.Update(id, person);
+            _context.SaveChanges();
 
             return person;
         }
@@ -66,8 +68,8 @@ namespace SimbirSoft.Controllers
         [HttpDelete("delete")]
         public IActionResult DeleteByFio([FromBody] Person person)
         {
-            _dataContext.DeleteByFIO(person);
-            _dataContext.Save();
+            _repository.DeleteByFIO(person);
+            _context.SaveChanges();
 
             return Ok();
         }
@@ -79,8 +81,8 @@ namespace SimbirSoft.Controllers
         [HttpDelete("delete/{id}")]
         public IActionResult Delete([FromRoute] int id)
         {
-            _dataContext.Delete(id);
-            _dataContext.Save();
+            _repository.Delete(id);
+            _context.SaveChanges();
 
             return Ok();
         }
@@ -93,8 +95,8 @@ namespace SimbirSoft.Controllers
         [HttpPost("addbook/{id}")]
         public IActionResult AddBook([FromRoute] int id,[FromBody] Book book)
         {
-            _dataContext.AddBook(id, book);
-            _dataContext.Save();
+            _repository.AddBook(id, book);
+            _context.SaveChanges();
 
             return Ok();
         }
@@ -107,8 +109,8 @@ namespace SimbirSoft.Controllers
         [HttpDelete("deletebook/{id}")]
         public IActionResult DeleteBook([FromRoute] int id,[FromBody] Book book)
         {
-            _dataContext.DeleteBook(id, book);
-            _dataContext.Save();
+            _repository.DeleteBook(id, book);
+            _context.SaveChanges();
 
             return Ok();
         }

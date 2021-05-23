@@ -60,10 +60,5 @@ namespace SimbirSoft.Intensive.Database.Repositories
                 throw new ArgumentException("У автора есть книги, удалить нельзя");
             }
         }
-
-        public void Save()
-        {
-            _dataContext.SaveChanges();
-        }
     }
 }

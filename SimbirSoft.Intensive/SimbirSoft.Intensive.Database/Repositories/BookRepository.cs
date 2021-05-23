@@ -72,10 +72,5 @@ namespace SimbirSoft.Intensive.Database.Repositories
                         };
             return query;
         }
-
-        public void Save()
-        {
-            _dataContext.SaveChanges();
-        }
     }
 }
