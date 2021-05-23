@@ -1,122 +1,93 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SimbirSoft.Intensive.BL.Books.Models;
+using SimbirSoft.Intensive.Database;
+using SimbirSoft.Intensive.Database.Models;
+using SimbirSoft.Intensive.Database.Repositories;
+using SimbirSoft.Intensive.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace SimbirSoft.Controllers
+namespace SimbirSoft.Intensive.Controllers
 {
     /// <summary>
     /// Контроллер для книг
     /// </summary>
     [ApiController]
+    [Route("/api/[controller]")]
     public class BookController : ControllerBase
     {
-        /// <summary>
-        /// Добавление тестовых сущностей
-        /// </summary>
-        public BookController()
+        IBookRepository _repository;
+        DataContext _context;
+        public BookController(DataContext dataContext)
         {
-            BookDto.books.Add(new BookDto() { Name = "Cthulhu", Author = "Govard Lovecraft", Genre = "Horror" });
-            BookDto.books.Add(new BookDto() { Name = "Harry Potter", Author = "Govard Lovecraft", Genre = "Fantastic" });
-            BookDto.books.Add(new BookDto() { Name = "Cherry Orchard", Author = "Anton Pavlovich Chekhov", Genre = "Piece" });
-        }
-
-        /// <summary>
-        /// Получение всех книг
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("api/books")]
-        public List<BookDto> GetAll ()
-        {
-            return BookDto.books;
-        }
-
-        /// <summary>
-        /// Получение книги по автору
-        /// </summary>
-        /// <param name="author"></param>
-        /// <returns></returns>
-        [HttpGet("/api/books/{author}")]
-        public BookDto GetByAuthor(string author)
-        {
-            var existBook = BookDto.books.FirstOrDefault(x => x.Author == author);
-
-            return existBook;
+            _repository = new BookRepository(dataContext);
+            _context = dataContext;
         }
 
         /// <summary>
         /// Добавление новой книги
         /// </summary>
         /// <param name="book"></param>
-        /// <returns></returns>
-        [HttpPost("/api/books/add")]
-        public List<BookDto> Post(BookDto book)
+        [HttpPost("add")]
+        public Book Add([FromBody] Book book)
         {
-            var bookSerialize =
-                new BookDtoSerialize
-                {
-                    Name = book.Name,
-                    Author = book.Author,
-                    GenreIgnore = book.Genre
-                };
+            _repository.Add(book);
+            _context.SaveChanges();
 
-            BookDto.books.Add(new BookDtoSerialize() { Name = bookSerialize.Name, Author = bookSerialize.Author, GenreIgnore = bookSerialize.GenreIgnore});
-
-            return BookDto.books;
+            return book;
         }
 
         /// <summary>
-        /// Удаление книги
+        /// Добавление жанра к книге
+        /// </summary>
+        /// <param name="book"></param>
+        [HttpPut("addgenre")]
+        public Book AddGenre([FromBody] Book book)
+        {
+            _repository.AddGenre(book);
+            _context.SaveChanges();
+
+            return book;
+        }
+
+        /// <summary>
+        /// Удаление у книги жанра
+        /// </summary>
+        /// <param name="book"></param>
+        /// <returns></returns>
+        //[HttpPut("deletegenre")]
+        //public Book DeleteGenre([FromBody] Book book)
+        //{
+        //    _dataContext.DeleteGenre(book);
+        //    _dataContext.Save();
+
+        //    return book;
+        //}
+
+        /// <summary>
+        /// Удаление книги по id (если она не у пользователя)
         /// </summary>
         /// <param name="name"></param>
-        /// <returns></returns>
-        [HttpDelete("/api/books/delete")]
-        public IActionResult Delete(string name)
+        [HttpDelete("delete/{id}")]
+        public IActionResult Delete([FromRoute] int id)
         {
-            var existBook = BookDto.books.FirstOrDefault(x => x.Author == name || x.Name == name);
-            BookDto.books.Remove(existBook);
+            _repository.Delete(id);
+            _context.SaveChanges();
 
-            return this.Ok();
+            return Ok();
         }
-    }
 
-    public class BookSerialize : JsonConverter<BookDto>
-    {
-        public override BookDto Read(
-            ref Utf8JsonReader reader,
-            Type type,
-            JsonSerializerOptions options)
-            {
-                // OK to pass in options when recursively calling Deserialize.
-                BookDto book =
-                    JsonSerializer.Deserialize<BookDtoSerialize>(
-                        ref reader,
-                        options);
-
-                // Check for required fields set by values in JSON.
-                return book;
-            }
-
-        public override void Write(
-            Utf8JsonWriter writer,
-            BookDto book,
-            JsonSerializerOptions options)
+        /// <summary>
+        /// Получение книг по жанру книги - автор - жанр
+        /// </summary>
+        /// <param name="genre"></param>
+        [HttpGet("getbookbygenre/{genre}")]
+        public IQueryable GetBookByGenre([FromRoute] string genre)
         {
-            var bookDtoSerialize =
-                new BookDtoSerialize
-                {
-                    Name = book.Name,
-                    Author = book.Author    
-                };
-
-            // OK to pass in options when recursively calling Serialize.
-            JsonSerializer.Serialize(
-                writer,
-                bookDtoSerialize,
-                options);
+            var model = _repository.GetBookByGenre(genre);
+            return model;
         }
     }
 }
